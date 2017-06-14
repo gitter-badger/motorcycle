@@ -20,5 +20,21 @@ export const test: TestCollection = describe(`once`, [
 
       stream.run(sink, scheduler)
     }),
+    it(`returns a stream of that ends`, ({ equal }, done) => {
+      const stream = once(1)
+
+      const scheduler = createScheduler()
+      const sink = {
+        event: (time, value) => {
+          equal(1, value)
+        },
+        error() {},
+        end() {
+          done()
+        },
+      }
+
+      stream.run(sink, scheduler)
+    }),
   ]),
 ])

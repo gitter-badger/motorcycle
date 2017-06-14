@@ -111,12 +111,11 @@ class BasicScheduler implements Scheduler {
     const tasks = this.timeline.readyTasks(this.now())
 
     for (const task of tasks) {
-      if (task.active)
-        task.run()
+      if (task.active) task.run()
 
       if (task.period >= 0 && task.active) {
         task.time = task.time + task.period
-    
+
         this.timeline.add(task)
       }
     }

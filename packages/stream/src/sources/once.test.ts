@@ -36,5 +36,24 @@ export const test: TestCollection = describe(`once`, [
 
       stream.run(sink, scheduler)
     }),
+    it(`does not emit after being disposed`, ({ ok }, done) => {
+      const stream = once(1)
+      const scheduler = createScheduler()
+      const sink = {
+        event: () => {
+          done(new Error(`Should not be called`))
+        },
+        error() {},
+        end() {},
+      }
+
+      ok(true)
+
+      setTimeout(() => {
+        done()
+      }, 10)
+
+      stream.run(sink, scheduler).dispose()
+    }),
   ]),
 ])

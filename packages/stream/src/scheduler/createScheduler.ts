@@ -6,6 +6,7 @@ import { Disposable } from '../disposable'
 import { Scheduler } from './types'
 import { Task } from './task'
 import { createPlatformClock } from './clock'
+import { createRelativeScheduler } from './createRelativeScheduler'
 
 export function createScheduler(
   timer: Timer = createTimer(createPlatformClock()),
@@ -14,7 +15,7 @@ export function createScheduler(
   return new BasicScheduler(timer, timeline)
 }
 
-class BasicScheduler extends AbstractScheduler implements Scheduler {
+class BasicScheduler implements Scheduler {
   protected timer: Timer
   protected timeline: Timeline
   protected disposable: Disposable | null = null
@@ -22,7 +23,6 @@ class BasicScheduler extends AbstractScheduler implements Scheduler {
   protected runReadyTasksBound: () => void
 
   constructor(timer: Timer, timeline: Timeline) {
-    super()
     this.timer = timer
     this.timeline = timeline
 
@@ -33,20 +33,20 @@ class BasicScheduler extends AbstractScheduler implements Scheduler {
     return this.timer.now()
   }
 
-  public asap(scheduledTask: ScheduledTask) {
-    return this.scheduleTask(0, 0, -1, scheduledTask)
+  public asap(task: Task): ScheduledTask {
+    return this.scheduleTask(0, 0, -1, task)
   }
 
-  public delay(delayTime: number, scheduledTask: ScheduledTask) {
-    return this.scheduleTask(0, delayTime, -1, scheduledTask)
+  public delay(delayTime: number, task: Task): ScheduledTask {
+    return this.scheduleTask(0, delayTime, -1, task)
   }
 
-  public periodic(period: number, scheduledTask: ScheduledTask) {
-    return this.scheduleTask(0, 0, period, scheduledTask)
+  public periodic(period: number, task: Task): ScheduledTask {
+    return this.scheduleTask(0, 0, period, task)
   }
 
-  public schedule(delay: number, period: number, scheduledTask: ScheduledTask) {
-    return this.scheduleTask(0, delay, period, scheduledTask)
+  public schedule(delay: number, period: number, task: Task): ScheduledTask {
+    return this.scheduleTask(0, delay, period, task)
   }
 
   public scheduleTask(offset: number, delay: number, period: number, task: Task): ScheduledTask {
@@ -60,15 +60,13 @@ class BasicScheduler extends AbstractScheduler implements Scheduler {
     return scheduledTask
   }
 
-  public relative(): Scheduler {
-    // TODO: return RelativeScheduler
-    return this
+  public relative(offset: number): Scheduler {
+    return createRelativeScheduler(offset, this)
   }
 
   public cancel(scheduledTask: ScheduledTask) {
     scheduledTask.active = false
-    if (this.timeline.remove(scheduledTask))
-      this.reschedule()
+    if (this.timeline.remove(scheduledTask)) this.reschedule()
   }
 
   public cancelAll(predicate: (scheduledTask: ScheduledTask) => boolean) {
@@ -76,7 +74,7 @@ class BasicScheduler extends AbstractScheduler implements Scheduler {
     this.reschedule()
   }
 
-  private reschedule () {
+  private reschedule() {
     if (this.timeline.isEmpty()) {
       this.unschedule()
     } else {

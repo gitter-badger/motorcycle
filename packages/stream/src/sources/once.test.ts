@@ -10,7 +10,7 @@ export const test: TestCollection = describe(`once`, [
 
       const scheduler = createScheduler()
       const sink = {
-        event: (time, value) => {
+        event: (_: number, value: number) => {
           equal(1, value)
           done()
         },
@@ -25,7 +25,7 @@ export const test: TestCollection = describe(`once`, [
 
       const scheduler = createScheduler()
       const sink = {
-        event: (time, value) => {
+        event: (_: number, value: number) => {
           equal(1, value)
         },
         error() {},

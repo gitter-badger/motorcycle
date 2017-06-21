@@ -20,7 +20,7 @@
     "typescript": "^2.4.0"
   },
   "lint-staged": {
-    ".ts": [
+    "*.ts": [
       "prettier --write --print-width 100 --tab-width 2 --no-semi --single-quote --trailing-comma es5 --parser typescript",
       "git add"
     ],

@@ -20,22 +20,18 @@ export class SettableDisposable implements Disposable {
   }
 
   setDisposable(disposable: Disposable) {
-    if (this.disposable !== void 0)
-      throw new Error('setDisposable called more than once')
+    if (this.disposable !== void 0) throw new Error('setDisposable called more than once')
 
     this.disposable = disposable
 
-    if (this.disposed)
-      disposable.dispose()
+    if (this.disposed) disposable.dispose()
   }
 
   dispose() {
-    if (this.disposed)
-      return 
+    if (this.disposed) return
 
     this.disposed = true
 
-    if (this.disposable !== void 0)
-      this.disposable.dispose()
+    if (this.disposable !== void 0) this.disposable.dispose()
   }
 }

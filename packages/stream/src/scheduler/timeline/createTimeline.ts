@@ -1,5 +1,3 @@
-import { flatten, map } from '167'
-
 import { ScheduledTask } from '../scheduledTask'
 import { Timeline } from './types'
 
@@ -46,20 +44,17 @@ class BasicTimeline implements Timeline {
     }
   }
 
-  public readyTasks(time: number): ReadonlyArray<ScheduledTask> {
+  public readyTasks(now: number): ReadonlyArray<ScheduledTask> {
     const { timeslots } = this
-    const length = timeslots.length
-    let index = 0
+    const scheduledTasks: Array<ScheduledTask> = []
 
-    while (index < length && timeslots[index].time <= time) {
-      ++index
+    while (timeslots.length > 0 && timeslots[0].time <= now) {
+      const { tasks } = timeslots.shift() as Timeslot
+
+      scheduledTasks.push.apply(scheduledTasks, tasks)
     }
 
-    const readyTimeslots = timeslots.splice(0, index)
-
-    const readyTasks = map(timeslot => timeslot.tasks, readyTimeslots)
-
-    return flatten(readyTasks)
+    return scheduledTasks
   }
 }
 

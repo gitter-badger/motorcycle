@@ -34,4 +34,27 @@ export const test: TestCollection = describe(`createTimeline`, [
       }),
     ]),
   ]),
+
+  describe(`readyTasks`, [
+    given(`the current time`, [
+      it(`returns the ready tasks`, ({ equal }) => {
+        const timeline: Timeline = createTimeline()
+        const sink = { event() {}, error() {}, end() {} }
+        const scheduler = createScheduler()
+
+        const taskOne = createEventTask(1, sink)
+        const scheduledTaskOne = createScheduledTask(0, 0, -1, taskOne, scheduler)
+
+        const taskTwo = createEventTask(2, sink)
+        const scheduledTaskTwo = createScheduledTask(10, 0, -1, taskTwo, scheduler)
+
+        timeline.add(scheduledTaskOne)
+        timeline.add(scheduledTaskTwo)
+
+        const readyTasks = timeline.readyTasks(1000)
+
+        equal([scheduledTaskOne, scheduledTaskTwo], readyTasks)
+      }),
+    ]),
+  ]),
 ])

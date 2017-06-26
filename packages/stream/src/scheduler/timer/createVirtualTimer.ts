@@ -2,6 +2,16 @@ import { Disposable, disposeWith } from '../../disposable'
 
 import { Timer } from './types'
 
+/**
+ * Creates a VirtualTimer that is useful in testing environments
+ * @name createVirtualTimer :: (int | void) -> { tick :: int -> void, timer :: Timer }
+ * @example
+ * import { createVirtualTimer, createScheduler } from '@motorcycle/stream'
+ *
+ * const { tick, timer } = createVirtualTimer()
+ * const scheduler = createScheduler(timer)
+ * // using tick(100) you can simulate time passing inside the scheduler 100 ms
+ */
 export function createVirtualTimer(
   now: number = 0
 ): { tick: (elapsedTime: number) => void; timer: Timer } {

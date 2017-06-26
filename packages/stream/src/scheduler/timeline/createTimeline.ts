@@ -1,6 +1,21 @@
 import { ScheduledTask } from '../scheduledTask'
 import { Timeline } from './types'
 
+/**
+ * Creates a timeline that can be used to create a scheduler.
+ * @name createTimeline :: () -> Timeline
+ * @example
+ * import {
+ *   createTimeline,
+ *   createTimer,
+ *   createPlatformClock,
+ *   createScheduler
+ * } from '@motorcycle/stream'
+ *
+ * const timer = createTimer(createPlatformClock())
+ * const timeline = createTimeline()
+ * const scheduler = createScheduler(timer, timeline)
+ */
 export function createTimeline(): Timeline {
   return new BasicTimeline()
 }

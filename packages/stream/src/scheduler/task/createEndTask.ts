@@ -1,6 +1,22 @@
 import { Sink } from '../../types'
 import { Task } from './types'
 
+/**
+ * Given a sink, creates a Task take will emit and end signal to the given sink.
+ *
+ * @name createEndTask :: Sink * -> Task
+ * @example
+ * import { Stream, Sink, Scheduler, createEndTask } from '@motorcycle/stream'
+ *
+ * // creates a stream that immediately ends after observation
+ * function empty(): Stream<any> {
+ *   function run(sink: Sink<any>, scheduler: Scheduler) {
+ *     return scheduler.asap(createEndTask(sink))
+ *   }
+ *
+ *   return { run }
+ * }
+ */
 export function createEndTask(sink: Sink<any>): Task {
   return new EndTask(sink)
 }

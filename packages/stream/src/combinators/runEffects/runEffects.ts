@@ -1,6 +1,19 @@
 import { Disposable, disposeSettable } from '../../disposable'
 import { Scheduler, Sink, Stream } from '../../'
 
+/**
+ * Given a stream and a scheduler it activates the stream returning a Promise
+ * which will resolve when the stream ends or reject if the stream errors.
+ *
+ * @name runEffects :: Stream a -> Scheduler -> Promise void
+ * @example
+ * import { runEffects, once, createScheduler } from '@motorcycle/stream'
+ *
+ * const stream = once(100)
+ * const scheduler = createScheduler()
+ *
+ * runEffects(stream, scheduler).then(() => console.log('complete'))
+ */
 export function runEffects<A>(stream: Stream<A>, scheduler: Scheduler): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const disposable = disposeSettable()

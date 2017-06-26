@@ -2,6 +2,11 @@ import { ScheduledTask } from './scheduledTask'
 import { Scheduler } from './types'
 import { Task } from './task'
 
+/**
+ * Given the current time, and a scheduler, creates a scheduler that
+ * uses the given time as an offset.
+ * @name createRelativeScheduler :: int -> Scheduler -> Scheduler
+ */
 export function createRelativeScheduler(origin: number, scheduler: Scheduler): Scheduler {
   return new RelativeScheduler(origin, scheduler)
 }

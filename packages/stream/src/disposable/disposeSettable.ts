@@ -1,5 +1,11 @@
 import { Disposable } from './types'
 
+/**
+ * Creates a Disposable that allows setting the underlying Disposable after
+ * creation.
+ *
+ * @name disposeSettable :: () -> SettableDisposable
+ */
 export function disposeSettable(): SettableDisposable {
   return new SettableDisposable()
 }

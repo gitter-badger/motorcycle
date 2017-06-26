@@ -2,6 +2,23 @@ import { Sink } from '../../types'
 import { Task } from './types'
 import { curry2 } from '167'
 
+/**
+ * Given an Error and a Sink, creates a Task that will emit the given error
+ * to one the given Sink.
+ *
+ * @name createErrorTask :: Error -> Sink * -> Task
+ * @example
+ * import { Stream, Sink, Scheduler, createErrorTask }
+ *
+ * // creates a Stream that will immediately error upon observation
+ * function throwError(error: Error): Stream<never> {
+ *   function run(sink: Sink<any>, scheduler: Scheduler) {
+ *     return scheduler.asap(createErrorTask(error, sink))
+ *   }
+ *
+ *   return { run }
+ * }
+ */
 export const createErrorTask: CreateErrorTask = curry2(function createErrorTask(
   error: Error,
   sink: Sink<any>

@@ -1,5 +1,17 @@
 import { Disposable } from './types'
 
+/**
+ * Given a Disposable it will ensure that a disposable will only ever
+ * be dispose()d of once
+ *
+ * @name disposeOnce :: Disposable -> Disposable
+ * @example
+ * import { disposeOnce } from '@motorcycle/stream'
+ *
+ * const disposable = disposeOnce(disposableOne)
+ *
+ * disposable.dispose()
+ */
 export function disposeOnce(disposable: Disposable): Disposable {
   return new DisposeOnce(disposable)
 }

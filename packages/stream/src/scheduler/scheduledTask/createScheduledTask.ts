@@ -2,6 +2,11 @@ import { ScheduledTask } from './types'
 import { Scheduler } from '../types'
 import { Task } from '../task'
 
+/**
+ * Creates a ScheduledTask, generally useful for working with a Scheduler
+ *
+ * @name createScheduledTask :: int -> int -> int -> Task -> Scheduler -> ScheduledTask
+ */
 export function createScheduledTask(
   time: number,
   offset: number,

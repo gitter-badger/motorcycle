@@ -8,6 +8,18 @@ import { Task } from './task'
 import { createPlatformClock } from './clock'
 import { createRelativeScheduler } from './createRelativeScheduler'
 
+/**
+ * Optionally given a Timer and a Timeline it creates a Scheduler.
+ *
+ * @name createScheduler :: Timer -> Timeline -> Scheduler
+ * @example
+ * import { createScheduler, createVirtualTimer } from '@motorcycle/stream'
+ *
+ * createScheduler()
+ *
+ * const { tick, timer } = createVirtualTimer()
+ * createScheduler(timer)
+ */
 export function createScheduler(
   timer: Timer = createTimer(createPlatformClock()),
   timeline: Timeline = createTimeline()

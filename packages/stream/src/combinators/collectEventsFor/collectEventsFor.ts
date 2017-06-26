@@ -1,5 +1,21 @@
 import { Sink, Stream, createEndTask, createTestScheduler } from '../../'
 
+/**
+ * Given a time amount and a Stream it will return a Promise
+ * of the amount of events that occur prior to the given time amount.
+ * Very useful in testing environments.
+ *
+ * @name collectEventsFor :: int -> Stream a -> Promise [{ time :: int, value :: A }]
+ * @example
+ * import { collectEventsFor, once } from '@motorcycle/stream'
+ * import * as assert from 'assert'
+ *
+ * it('returns expected events', () => {
+ *   return collectEventsFor(100, once(1)).then(events => {
+ *     assert.deepEqual(events, [ { time: 0, value: 1 } ])
+ *   })
+ * })
+ */
 export function collectEventsFor<A>(
   time: number,
   stream: Stream<A>

@@ -9,6 +9,15 @@ export interface TestScheduler {
   scheduler: Scheduler
 }
 
+/**
+ * Optionally given a Timeline it will create a TestScheduler
+ *
+ * @name createTestScheduler :: timeline -> TestScheduler
+ * @example
+ * import { createTestScheduler } from '@motorcycle/stream'
+ *
+ * const { tick, scheduler } = createTestScheduler()
+ */
 export function createTestScheduler(timeline: Timeline = createTimeline()): TestScheduler {
   const { tick, timer } = createVirtualTimer()
 

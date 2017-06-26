@@ -1,12 +1,7 @@
 import { Disposable, disposeSettable } from '../../disposable'
-import { Scheduler, Stream, createScheduler } from '../../'
+import { Scheduler, Sink, Stream } from '../../'
 
-import { Sink } from '../../types'
-
-export function runEffects<A>(
-  stream: Stream<A>,
-  scheduler: Scheduler = createScheduler()
-): Promise<void> {
+export function runEffects<A>(stream: Stream<A>, scheduler: Scheduler): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const disposable = disposeSettable()
 

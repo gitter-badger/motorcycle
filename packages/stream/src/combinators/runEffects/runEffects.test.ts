@@ -9,6 +9,6 @@ export const test: TestCollection = describe(`runEffects`, [
       const stream = once(1)
 
       return runEffects(stream).then(equal(void 0))
-    })
-  ])
+    }),
+  ]),
 ])

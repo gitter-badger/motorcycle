@@ -3,7 +3,10 @@ import { Scheduler, Stream, createScheduler } from '../../'
 
 import { Sink } from '../../types'
 
-export function runEffects<A>(stream: Stream<A>, scheduler: Scheduler = createScheduler()): Promise<void> {
+export function runEffects<A>(
+  stream: Stream<A>,
+  scheduler: Scheduler = createScheduler()
+): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const disposable = disposeSettable()
 
@@ -32,17 +35,22 @@ class RunEffectsSink<A> implements Sink<A> {
   }
 
   public end() {
-    if (!this._active) return 
+    if (!this._active) return
     this.dispose(this._error, this._end, void 0)
   }
 
-  private dispose (error: (err: Error) => void, end: (err?: Error) => void, x: any) {
+  private dispose(error: (err: Error) => void, end: (err?: Error) => void, x: any) {
     this._active = false
     tryDispose(error, end, x, this._disposable)
   }
 }
 
-function tryDispose (error: (err: Error) => void, end: (err?: Error) => void, x: any, disposable: Disposable) {
+function tryDispose(
+  error: (err: Error) => void,
+  end: (err?: Error) => void,
+  x: any,
+  disposable: Disposable
+) {
   try {
     disposable.dispose()
   } catch (e) {

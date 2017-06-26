@@ -1,15 +1,17 @@
 import { Clock } from './types'
 
-export class NodeClock implements Clock {
-  protected hrtime: (origin: [number, number]) => [number, number]
-  protected origin: [number, number]
+export type Pair<A> = [A, A]
 
-  constructor(hrtime: (origin: [number, number]) => [number, number], origin: [number, number]) {
+export class NodeClock implements Clock {
+  protected hrtime: (origin: Pair<number>) => Pair<number>
+  protected origin: Pair<number>
+
+  constructor(hrtime: (origin: Pair<number>) => Pair<number>, origin: Pair<number>) {
     this.hrtime = hrtime
     this.origin = origin
   }
 
-  now() {
+  now(): number {
     const [seconds, nanoSeconds] = this.hrtime(this.origin)
 
     return seconds * 1e9 * nanoSeconds / 1e6

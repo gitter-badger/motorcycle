@@ -1,4 +1,5 @@
 export * from './types'
+export * from './combinators'
 export * from './disposable'
 export * from './scheduler'
 export * from './sources'
